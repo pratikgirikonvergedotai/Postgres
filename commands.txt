@@ -223,7 +223,8 @@ insert into person (id) values (uuid_generate_v4())
 
 
 
-
+Exporting Query Results to CSV :
+\copy (query) to 'full_path/file.csv' delimiter ',' csv header;
 
 
 
