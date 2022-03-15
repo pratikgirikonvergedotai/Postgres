@@ -203,9 +203,22 @@ joins :
 
 
 
+Important : 
+bigserial has a function nextval('table_name_column_name__seq'::regclass) 
+which is responsiable for increment of value by 1 
+internally its data type is bigint 
+we can reset the value of nextval('table_name_column_name_seq'::regclass) after we increased to a level . 
+command for reset is : alter sequence table_name_column_name_seq restart with 10;
 
 
 
+
+
+
+
+we can use uuid instead of bigserial  .so that we get unique id values
+create table person (id uuid not null primary key)
+insert into person (id) values (uuid_generate_v4())
 
 
 
