@@ -1,0 +1,233 @@
+Data types of postgres can be found here : https://www.postgresql.org/docs/9.5/datatype.html
+
+create a databse:  CREATE DATABASE DATABASE_NAME;
+
+create a table/Creating Tables Without Constraints : CREATE TABLE TABLE_NAME(ID INT, NAME VARCHAR(50));
+
+Creating Tables with Constraints : CREATE TABLE TABLE_NAME(ID INT NOT NULL PRIMARY KEY, NAME VARCHAR(50) NOT NULL);
+
+insert : INSERT INTO TABLE_NAME(ID, NAME) VALUES (1, 'TONY STARK');
+
+select : SELECT * FROM TABLE_NAME; OR SELECT COLUMN_NAME FROM TABLE_NAME;
+
+order by : SELECT * FROM TABLE_NAME ORDER BY COLUMN_NAME;
+
+distinct : SELECT DISTINCT COLUMN_NAME FROM TABLE_NAME;
+
+Where Clause and AND : 
+1) SELECT * FROM TABLE_NAME WHERE COLUMN_NAME = VALUE
+
+2) SELECT * FROM TABLE_NAME WHERE COLUMN_NAME1 = VALUE AND COLUMN_NAME2 = VALUE
+
+
+limit , offset, fetch:
+
+1) SELECT * FROM TABLE_NAME LIMIT 10
+
+2) SELECT * FROM TABLE_NAME OFFSET 5 LIMIT 5
+
+3) SELECT * FROM TABLE_NAME OFFSET 5 FETCH FIRST 5 ROW ONLY 
+
+
+in : SELECT * FROM TABLE_NAME WHERE COLUMN_NAME IN (VALUE_1, VALUE_2)
+
+between : select * from person where date_of_birth between date '2000-01-01' and '2015-01-01'
+
+
+like & ilike : 
+ 
+ 
+1) select * from person where email like '%.com' (% will match anything)
+
+2) select * from person where email like '----@google.com' (one underscore equals to one charater)
+
+like is case sensitive for words put in under quotes and Ilike is not 
+
+
+group by : select country_of_birth, count(*)  from person group by country_of_birth
+
+group by and having : 
+
+select country_of_birth, count(*)  from person group by country_of_birth having count(*) > 5
+
+
+max, min, avg, sum, round:
+
+1) select max(price) from car;
+
+2) select min(price) from car;
+
+3) select avg(price) from car; 
+
+4) select round(avg(price)) from car;
+
+5) select sum(price) from car
+
+
+
+alias : select price as p from person
+
+
+
+Coalesce : its used to handle null values . it replaces null values with given replacement
+
+select Coalesce(email, 'email_not_provided') from person
+
+
+
+null if : handles the null result like diving by zero
+
+select 10/nullif(0, 0)
+
+
+
+time stamp : 
+
+1) select now()
+
+2) select now()::date
+
+3) select now()::time
+
+
+
+Adding And Subtracting With Dates: we can add and sub year and month , days
+
+1) select now() - interval '1 year';
+
+2) select now() + interval '10 years';
+
+3) select now() + interval '1 month';
+
+4) select (now() + interval '10 months')::date;
+
+
+extract Fields From Timestamp: 
+
+1) select extract(year from now())
+
+2) select extract(month from now())
+
+3) select extract(day from now())
+
+4) select extract(dow from now())  (date of week)
+
+5) select extract(century from now())
+
+
+
+
+
+age function : select first, age(now(), date_of_birth) last from person
+
+
+
+
+
+primary key :  unique identifier of table
+
+Foreign Keys : pointer to primary keys in other table
+
+
+
+Unique Constraints :
+
+1) alter table person add constraint unique_email unique(email)
+      
+2) alter table person add unique(email)  (postgres will handle rest)
+
+
+check constraints : alter table person add constraint gender_constraint check(gender = 'female' or gender = 'male')
+
+
+
+
+
+
+
+delete : 
+1) delete from person (entire table)
+
+2) delete from person where id = 1
+
+
+update : 
+
+1) update person set email = 'new@g.c' (entire table)
+
+2) update person set email = 'new@g.c' where id = 1
+
+
+
+On Conflict : handles conflict like duplicate key error only works on a unique column values
+
+on conflict (id) do nothing;
+
+
+upsert : on conflict (id) do update set email = excluded.email
+
+
+
+
+
+adding Relationship Between Tables : 
+
+create table car (id bigserial not null primary key, name varchar(50) not null, model varchar(50) not null, price numeric(19, 2) not null)
+
+create table person(id bigserial not null primary key, name varchar(50) not null, gender varchar(50), date_of_birth date not null, car_id bigint references car(id), unique(car_id))
+
+
+
+
+
+updating Foreign Keys Columns : 
+
+update person set car_id = 2 where id = 1
+
+
+
+Deleting Records With Foreign Keys : remove foreign constraint to remove the record that is referenced in another table
+
+
+joins :
+
+1) inner join : SELECT column_name FROM table1 INNER JOIN table2 ON table1.column_name = table2.column_name;
+
+2) left join : SELECT column_name FROM table1 LEFT JOIN table2 ON table1.column_name = table2.column_name;
+
+3) right join : SELECT column_name FROM table1 RIGHT JOIN table2 ON table1.column_name = table2.column_name;
+
+4) full join :  SELECT column_name FROM table1 FULL OUTER JOIN table2 ON table1.column_name = table2.column_name WHERE condition; 
+
+5) self join : SELECT column_name FROM table1 T1, table1 T2 WHERE condition;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+ 
+
+
+
+
+
+
+
